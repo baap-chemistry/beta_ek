@@ -1,0 +1,2517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kinetix Lab | Class XII CBSE Chemical Kinetics</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* CSS RESET & VARIABLES */
+        :root {
+            --bg-dark: #0B0F19;
+            --bg-card: rgba(20, 26, 44, 0.65);
+            --bg-card-hover: rgba(28, 36, 61, 0.8);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --accent-cyan: #00F2FE;
+            --accent-purple: #9B51E0;
+            --accent-green: #00F5A0;
+            --accent-orange: #FF8C00;
+            --text-primary: #F3F4F6;
+            --text-secondary: #9CA3AF;
+            --font-display: 'Outfit', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --shadow-glow-cyan: 0 0 15px rgba(0, 242, 254, 0.4);
+            --shadow-glow-purple: 0 0 15px rgba(155, 81, 224, 0.4);
+            --shadow-glow-green: 0 0 15px rgba(0, 245, 160, 0.4);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* BACKGROUND MESH GRADIENT EFFECT */
+        .mesh-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -10;
+            overflow: hidden;
+            background: radial-gradient(circle at 10% 20%, rgba(155, 81, 224, 0.08) 0%, transparent 40%),
+                        radial-gradient(circle at 90% 80%, rgba(0, 242, 254, 0.08) 0%, transparent 45%),
+                        radial-gradient(circle at 50% 50%, rgba(11, 15, 25, 1) 0%, rgba(8, 10, 18, 1) 100%);
+        }
+
+        /* CUSTOM SCROLLBAR */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-cyan);
+        }
+
+        /* GLASS CARD COMMON COMPONENT */
+        .glass-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 2rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        /* HEADER & NAVIGATION */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            background: rgba(11, 15, 25, 0.7);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 2rem;
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .logo svg {
+            filter: drop-shadow(0 0 5px rgba(0, 242, 254, 0.6));
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav ul li a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+            transition: width 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: var(--text-primary);
+            text-shadow: 0 0 10px rgba(0, 242, 254, 0.3);
+        }
+
+        nav ul li a:hover::after,
+        nav ul li a.active::after {
+            width: 100%;
+        }
+
+        nav ul li a.active {
+            color: var(--accent-cyan);
+        }
+
+        .burger-menu {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        .burger-menu span {
+            width: 25px;
+            height: 3px;
+            background-color: var(--text-primary);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 8rem 2rem 4rem 2rem;
+            position: relative;
+        }
+
+        .hero-badge {
+            background: rgba(0, 242, 254, 0.1);
+            border: 1px solid rgba(0, 242, 254, 0.2);
+            color: var(--accent-cyan);
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            box-shadow: var(--shadow-glow-cyan);
+            animation: pulse 2s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 5px rgba(0, 242, 254, 0.2); }
+            100% { transform: scale(1.05); box-shadow: 0 0 15px rgba(0, 242, 254, 0.5); }
+        }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 1.5rem;
+            max-width: 900px;
+        }
+
+        .hero-title span {
+            background: linear-gradient(135deg, var(--accent-cyan) 20%, #4FACFE 50%, var(--accent-purple) 80%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 40px rgba(0, 242, 254, 0.15);
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 650px;
+            margin-bottom: 3rem;
+            font-weight: 400;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .btn {
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-cyan), #4FACFE);
+            color: #000;
+            border: none;
+            box-shadow: var(--shadow-glow-cyan);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 25px rgba(0, 242, 254, 0.7);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: scale(1.03);
+        }
+
+        /* SECTION COMMON LAYOUT */
+        section {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-tag {
+            color: var(--accent-purple);
+            font-family: var(--font-display);
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .section-desc {
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 1rem auto 0 auto;
+            font-size: 1.05rem;
+        }
+
+        /* TABBED NAV FOR CONCEPTS */
+        .tab-nav {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 0.7rem 1.5rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: var(--font-display);
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-primary);
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--accent-purple), #7B2CBF);
+            color: white;
+            border-color: transparent;
+            box-shadow: var(--shadow-glow-purple);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* CORE CONCEPTS STYLE */
+        .concept-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .concept-card {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .concept-body h3 {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            color: var(--accent-cyan);
+            margin-bottom: 1rem;
+        }
+
+        .concept-body p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+            text-align: justify;
+        }
+
+        .concept-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(11, 15, 25, 0.4);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            min-height: 250px;
+        }
+
+        /* Table inside Concept Card */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            padding: 0.8rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .comparison-table th {
+            color: var(--accent-purple);
+            font-family: var(--font-display);
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .comparison-table td {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .comparison-table tr:hover td {
+            color: var(--text-primary);
+        }
+
+        .formula-box {
+            background: rgba(0, 242, 254, 0.05);
+            border-left: 4px solid var(--accent-cyan);
+            padding: 1rem 1.5rem;
+            border-radius: 0 8px 8px 0;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #fff;
+            margin: 1rem 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .formula-box span.label {
+            font-family: var(--font-body);
+            font-size: 0.8rem;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* SIMULATOR LAYOUT */
+        .simulator-container {
+            display: grid;
+            grid-template-columns: 1.8fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 968px) {
+            .simulator-container, .concept-card, .dashboard-grid {
+                grid-template-columns: 1fr !important;
+            }
+            .concept-card {
+                gap: 1.5rem;
+            }
+            .concept-visual {
+                order: -1;
+            }
+        }
+
+        .simulator-canvas-container {
+            position: relative;
+            background: #080C14;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8);
+        }
+
+        canvas#simCanvas {
+            display: block;
+            width: 100%;
+            height: 380px;
+        }
+
+        .sim-overlay-stats {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            display: flex;
+            gap: 0.8rem;
+            pointer-events: none;
+            flex-wrap: wrap;
+        }
+
+        .stat-badge {
+            background: rgba(11, 15, 25, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(4px);
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .stat-badge span.value {
+            color: var(--accent-cyan);
+        }
+
+        .simulator-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .control-group label {
+            font-family: var(--font-display);
+            font-size: 0.95rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-primary);
+        }
+
+        .control-group label span.val-display {
+            color: var(--accent-cyan);
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            outline: none;
+            transition: background 0.3s ease;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--accent-cyan);
+            cursor: pointer;
+            box-shadow: var(--shadow-glow-cyan);
+            transition: transform 0.1s ease;
+        }
+
+        .slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        .purple-slider::-webkit-slider-thumb {
+            background: var(--accent-purple);
+            box-shadow: var(--shadow-glow-purple);
+        }
+
+        /* Toggle Checkbox Switch */
+        .switch-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            padding: 0.8rem 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .switch-container:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .switch-container span.lbl {
+            font-family: var(--font-display);
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 46px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .switch-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .switch-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .switch-slider {
+            background-color: var(--accent-green);
+        }
+
+        input:checked + .switch-slider:before {
+            transform: translateX(22px);
+        }
+
+        .sim-btn-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        /* ENERGY PROFILE CHART SIMULATION */
+        .energy-profile-container {
+            background: rgba(11, 15, 25, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .energy-profile-container svg {
+            width: 100%;
+            height: 120px;
+        }
+
+        /* DASHBOARD (GRAPH & CALCULATOR) */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1.2fr;
+            gap: 2.5rem;
+        }
+
+        .graph-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .graph-wrapper {
+            background: rgba(11, 15, 25, 0.4);
+            border-radius: 12px;
+            padding: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .svg-chart-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        @media (max-width: 600px) {
+            .svg-chart-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .chart-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .chart-box h4 {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .chart-box svg {
+            width: 100%;
+            max-width: 250px;
+            height: 180px;
+            border-left: 2px solid rgba(255,255,255,0.2);
+            border-bottom: 2px solid rgba(255,255,255,0.2);
+            padding: 5px;
+        }
+
+        .calc-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .calc-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .calc-input-group label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .calc-input-group input, .calc-input-group select {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-color);
+            color: white;
+            padding: 0.8rem;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .calc-input-group input:focus, .calc-input-group select:focus {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 10px rgba(0,242,254,0.1);
+        }
+
+        .calc-result {
+            margin-top: 1.5rem;
+            background: rgba(0, 242, 254, 0.05);
+            border: 1px solid rgba(0, 242, 254, 0.2);
+            border-radius: 8px;
+            padding: 1.2rem;
+            display: none;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .calc-result-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .calc-result-val {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .calc-result-exp {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: 0.5rem;
+        }
+
+        /* FUN FACTS SECTION */
+        .facts-container {
+            position: relative;
+            max-width: 750px;
+            margin: 0 auto;
+            min-height: 380px;
+        }
+
+        .fact-slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.95);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .fact-slide.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1);
+            position: relative;
+        }
+
+        .fact-card-inner {
+            background: radial-gradient(circle at top right, rgba(0,242,254,0.1), transparent), var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            height: 100%;
+            justify-content: center;
+        }
+
+        .fact-icon {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            filter: drop-shadow(0 0 8px rgba(0, 242, 254, 0.4));
+        }
+
+        .fact-title {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+        }
+
+        .fact-text {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            max-width: 550px;
+        }
+
+        .fact-badge {
+            background: rgba(0, 245, 160, 0.1);
+            border: 1px solid rgba(0, 245, 160, 0.2);
+            color: var(--accent-green);
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        .carousel-nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .carousel-arrow {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-arrow:hover {
+            background: var(--accent-cyan);
+            color: black;
+            box-shadow: var(--shadow-glow-cyan);
+            border-color: transparent;
+            transform: scale(1.1);
+        }
+
+        .carousel-dots {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: var(--accent-cyan);
+            width: 24px;
+            border-radius: 4px;
+        }
+
+        /* QUIZ LAYOUT */
+        .quiz-wrapper {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .quiz-intro {
+            text-align: center;
+        }
+
+        .quiz-intro p {
+            margin-bottom: 2rem;
+            color: var(--text-secondary);
+        }
+
+        .quiz-progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 3px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .quiz-progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+            transition: width 0.3s ease;
+        }
+
+        .question-card {
+            display: none;
+        }
+
+        .question-card.active {
+            display: block;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .quiz-q-num {
+            color: var(--accent-purple);
+            font-family: var(--font-display);
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .quiz-q-text {
+            font-family: var(--font-display);
+            font-size: 1.35rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .option-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            text-align: left;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .option-btn:hover:not(.disabled) {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateX(4px);
+        }
+
+        .option-btn.correct {
+            background: rgba(0, 245, 160, 0.15) !important;
+            border-color: var(--accent-green) !important;
+            color: var(--accent-green);
+            box-shadow: 0 0 10px rgba(0, 245, 160, 0.1);
+        }
+
+        .option-btn.incorrect {
+            background: rgba(255, 99, 132, 0.15) !important;
+            border-color: #FF6384 !important;
+            color: #FF6384;
+            box-shadow: 0 0 10px rgba(255, 99, 132, 0.1);
+        }
+
+        .option-btn.disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .quiz-explanation {
+            background: rgba(155, 81, 224, 0.08);
+            border-left: 4px solid var(--accent-purple);
+            padding: 1.2rem;
+            border-radius: 0 8px 8px 0;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            display: none;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .quiz-explanation strong {
+            color: var(--accent-purple);
+            display: block;
+            margin-bottom: 0.3rem;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+        }
+
+        .quiz-nav-btns {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            align-items: center;
+        }
+
+        .quiz-score-card {
+            text-align: center;
+            animation: scaleUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        @keyframes scaleUp {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .score-circle {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--bg-dark), rgba(0, 242, 254, 0.1)), var(--bg-card);
+            border: 4px solid var(--accent-cyan);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.2rem;
+            font-weight: 800;
+            font-family: var(--font-display);
+            color: white;
+            box-shadow: var(--shadow-glow-cyan);
+            margin: 1.5rem 0;
+        }
+
+        .score-circle span.label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            font-family: var(--font-body);
+            text-transform: uppercase;
+        }
+
+        .rank-badge {
+            background: rgba(155, 81, 224, 0.15);
+            border: 1px solid var(--accent-purple);
+            color: var(--accent-purple);
+            font-size: 0.9rem;
+            font-weight: 700;
+            padding: 0.4rem 1.2rem;
+            border-radius: 50px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: var(--shadow-glow-purple);
+        }
+
+        /* CONFETTI CANVAS */
+        #confettiCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 999;
+            display: none;
+        }
+
+        /* FOOTER */
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding: 3rem 2rem;
+            background: rgba(8, 10, 18, 0.8);
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .footer-logo {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            list-style: none;
+        }
+
+        .footer-links li a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links li a:hover {
+            color: var(--accent-cyan);
+        }
+
+        .footer-copy {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.3);
+        }
+
+        /* RESPONSIVE HAMBURGER NAVIGATION MOBILE */
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--bg-dark);
+                border-bottom: 1px solid var(--border-color);
+                padding: 1.5rem 2rem;
+                gap: 1.2rem;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            }
+            nav ul.mobile-active {
+                display: flex;
+            }
+            .burger-menu {
+                display: flex;
+            }
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            .hero-subtitle {
+                font-size: 1.05rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- MESH BG DECORATION -->
+    <div class="mesh-bg"></div>
+    <canvas id="confettiCanvas"></canvas>
+
+    <!-- HEADER / NAVIGATION -->
+    <header>
+        <div class="nav-container">
+            <div class="logo" onclick="window.scrollTo(0,0)">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="6" cy="18" r="4" fill="#00F2FE" />
+                    <circle cx="18" cy="6" r="4" fill="#9B51E0" />
+                    <path d="M9.5 14.5L14.5 9.5" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M12 12L15 15" stroke="white" stroke-width="1.5" stroke-dasharray="2 2"/>
+                </svg>
+                Kinetix Lab
+            </div>
+            <nav>
+                <div class="burger-menu" id="burgerMenu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <ul id="navLinks">
+                    <li><a href="#concepts" class="nav-link">Concepts</a></li>
+                    <li><a href="#simulator" class="nav-link">Virtual Sim</a></li>
+                    <li><a href="#dashboard" class="nav-link">Graph & Calc</a></li>
+                    <li><a href="#facts" class="nav-link">Fun Facts</a></li>
+                    <li><a href="#quiz" class="nav-link">Quick Quiz</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <div class="hero">
+        <div class="hero-badge">CBSE Class XII Interactive Lab</div>
+        <h1 class="hero-title">Master the Science of <span>Chemical Kinetics</span></h1>
+        <p class="hero-subtitle">Explore reaction rates, simulate molecular collisions, plot curves, and crush your board exams with interactive models and fun facts.</p>
+        <div class="hero-cta">
+            <a href="#simulator" class="btn btn-primary">Try Virtual Simulator</a>
+            <a href="#concepts" class="btn btn-secondary">Learn Concepts</a>
+        </div>
+    </div>
+
+    <!-- CORE CONCEPTS SECTION -->
+    <section id="concepts">
+        <div class="section-header">
+            <span class="section-tag">Theory Essentials</span>
+            <h2 class="section-title">CBSE Core Syllabus</h2>
+            <p class="section-desc">Quick formulas and core summaries engineered to help you recall ideas instantly.</p>
+        </div>
+
+        <div class="tab-nav">
+            <button class="tab-btn active" onclick="switchTab('concepts', 0)">Reaction Rates</button>
+            <button class="tab-btn" onclick="switchTab('concepts', 1)">Order vs Molecularity</button>
+            <button class="tab-btn" onclick="switchTab('concepts', 2)">Integrated Rate Laws</button>
+            <button class="tab-btn" onclick="switchTab('concepts', 3)">Collision & Arrhenius</button>
+        </div>
+
+        <!-- Tab 0: Reaction Rates -->
+        <div class="tab-content active concepts-tab">
+            <div class="glass-card concept-card">
+                <div class="concept-body">
+                    <h3>Rate of Reaction</h3>
+                    <p>The rate of a chemical reaction is the change in concentration of reactants or products per unit time. It indicates how fast a reaction occurs.</p>
+                    <p><strong>Average Rate (r<sub>avg</sub>):</strong> Measured over a finite time interval &Delta;t. It represents the overall speed over a duration: <br>r<sub>avg</sub> = -&Delta;[A]/&Delta;t = +&Delta;[P]/&Delta;t</p>
+                    <p><strong>Instantaneous Rate (r<sub>inst</sub>):</strong> The rate of reaction at a specific instant of time. Expressed using differentials: <br>r<sub>inst</sub> = -d[A]/dt = +d[P]/dt</p>
+                    <div class="formula-box">
+                        <span class="label">CBSE Formula (Reactant to Product: aA &rarr; bB)</span>
+                        Rate = -1/a * d[A]/dt = +1/b * d[B]/dt
+                    </div>
+                </div>
+                <div class="concept-visual">
+                    <svg width="280" height="200" viewBox="0 0 280 200" style="background:#080C14; border-radius:8px;">
+                        <!-- Axes -->
+                        <line x1="40" y1="20" x2="40" y2="170" stroke="#fff" stroke-width="2"/>
+                        <line x1="40" y1="170" x2="250" y2="170" stroke="#fff" stroke-width="2"/>
+                        <text x="10" y="100" fill="#9CA3AF" font-size="10" transform="rotate(-90 20 100)">Concentration</text>
+                        <text x="140" y="190" fill="#9CA3AF" font-size="10">Time (t)</text>
+                        <!-- Reactant Curve -->
+                        <path d="M 40 40 Q 100 150 240 160" fill="none" stroke="#00F2FE" stroke-width="3" id="reactantCurve"/>
+                        <text x="60" y="70" fill="#00F2FE" font-size="12">Reactant [A]</text>
+                        <!-- Product Curve -->
+                        <path d="M 40 170 Q 100 60 240 50" fill="none" stroke="#9B51E0" stroke-width="3" id="productCurve"/>
+                        <text x="160" y="70" fill="#9B51E0" font-size="12">Product [P]</text>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 1: Order vs Molecularity -->
+        <div class="tab-content concepts-tab">
+            <div class="glass-card concept-card">
+                <div class="concept-body">
+                    <h3>Order vs. Molecularity</h3>
+                    <p>Students frequently confuse these two key kinetic terms. Let's compare them side-by-side to understand why they are drastically different.</p>
+                    <p><strong>Reaction Order</strong> is an experimental quantity determined by adding exponents of concentration terms in the Rate Law equation. It can be fractional or zero.</p>
+                    <p><strong>Molecularity</strong> is a theoretical concept representing the number of reacting species (atoms, ions, or molecules) that must collide simultaneously to bring about the reaction. It can only be an integer (1, 2, or 3).</p>
+                    <div class="formula-box">
+                        <span class="label">Rate Law Expression</span>
+                        Rate = k[A]<sup>x</sup>[B]<sup>y</sup> &nbsp;&rArr;&nbsp; Overall Order (n) = x + y
+                    </div>
+                </div>
+                <div class="concept-visual" style="padding:0.5rem;">
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Property</th>
+                                <th>Order</th>
+                                <th>Molecularity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Definition</strong></td>
+                                <td>Sum of exponents in Rate Law</td>
+                                <td>Number of colliding molecules</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Nature</strong></td>
+                                <td>Experimental value</td>
+                                <td>Theoretical value</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Values</strong></td>
+                                <td>Can be 0, fraction, or integer</td>
+                                <td>Only integers (1, 2, 3)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Application</strong></td>
+                                <td>Applies to elementary & complex</td>
+                                <td>Applies to elementary only</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 2: Integrated Rate Laws -->
+        <div class="tab-content concepts-tab">
+            <div class="glass-card concept-card">
+                <div class="concept-body">
+                    <h3>Integrated Rate Equations</h3>
+                    <p>CBSE Class XII focuses specifically on the integrated rate laws of <strong>Zero-Order</strong> and <strong>First-Order</strong> reactions. These allow us to calculate concentrations at any given time.</p>
+                    <p><strong>Zero-Order:</strong> Rate of reaction is independent of the reactant concentration. <br>Equation: [A]<sub>t</sub> = -kt + [A]<sub>0</sub> <br>Half-life (t<sub>1/2</sub>): Directly proportional to initial concentration.</p>
+                    <p><strong>First-Order:</strong> Rate of reaction is proportional to the concentration of reactant. <br>Equation: ln[A]<sub>t</sub> = -kt + ln[A]<sub>0</sub> &nbsp;&rArr;&nbsp; k = 2.303/t * log([A]<sub>0</sub>/[A]<sub>t</sub>) <br>Half-life (t<sub>1/2</sub>): Completely independent of initial concentration.</p>
+                </div>
+                <div class="concept-visual">
+                    <div style="width:100%; display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                        <div class="glass-card" style="padding: 1rem; background:rgba(0,0,0,0.3); text-align:center; border-color: rgba(0, 242, 254, 0.15)">
+                            <h4 style="color:var(--accent-cyan); font-size:0.9rem; margin-bottom:0.5rem;">Zero Order</h4>
+                            <p style="font-family:monospace; font-size:1.1rem; color:#fff;">k = ([A]<sub>0</sub> - [A]<sub>t</sub>)/t</p>
+                            <hr style="margin: 0.5rem 0; border: none; border-top: 1px solid rgba(255,255,255,0.05);">
+                            <p style="font-family:monospace; font-size:1.1rem; color:var(--accent-cyan);">t<sub>1/2</sub> = [A]<sub>0</sub> / (2k)</p>
+                        </div>
+                        <div class="glass-card" style="padding: 1rem; background:rgba(0,0,0,0.3); text-align:center; border-color: rgba(155, 81, 224, 0.15)">
+                            <h4 style="color:var(--accent-purple); font-size:0.9rem; margin-bottom:0.5rem;">First Order</h4>
+                            <p style="font-family:monospace; font-size:1rem; color:#fff;">k = 2.303/t * log([A]<sub>0</sub>/[A]<sub>t</sub>)</p>
+                            <hr style="margin: 0.5rem 0; border: none; border-top: 1px solid rgba(255,255,255,0.05);">
+                            <p style="font-family:monospace; font-size:1.1rem; color:var(--accent-purple);">t<sub>1/2</sub> = 0.693 / k</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 3: Collision & Arrhenius -->
+        <div class="tab-content concepts-tab">
+            <div class="glass-card concept-card">
+                <div class="concept-body">
+                    <h3>Collision Theory & Temperature Effect</h3>
+                    <p>Why do reactions speed up dramatically at higher temperatures? Why do we need catalysts?</p>
+                    <p><strong>Collision Theory:</strong> For a reaction to occur, reactant molecules must collide. However, only <em>effective collisions</em> form products. An effective collision requires:
+                        <br>&bull; <strong>Energy Barrier:</strong> Molecules must possess a minimum energy called <strong>Threshold Energy</strong> (Activation Energy, E<sub>a</sub> + Average Energy).
+                        <br>&bull; <strong>Orientation Barrier:</strong> Molecules must collide in the correct spatial alignment.
+                    </p>
+                    <p><strong>Arrhenius Equation:</strong> Quantifies how rate constant (k) depends on temperature: k = A * e<sup>-E<sub>a</sub>/RT</sup>. A increase of 10 K in temperature generally doubles the rate constant due to a doubling of effective collisions.</p>
+                </div>
+                <div class="concept-visual">
+                    <div class="formula-box" style="width: 100%; border-left-color: var(--accent-green); background: rgba(0, 245, 160, 0.03);">
+                        <span class="label" style="color:var(--accent-green)">Arrhenius Equation</span>
+                        k = A &bull; e<sup>-E<sub>a</sub>/RT</sup>
+                        <hr style="margin:0.5rem 0; border:none; border-top:1px solid rgba(255,255,255,0.05)">
+                        <span style="font-size:0.85rem; font-weight:400; color:var(--text-secondary);">
+                            A = Frequency Factor<br>
+                            E<sub>a</sub> = Activation Energy (J/mol)<br>
+                            R = Gas Constant (8.314 J/K/mol)<br>
+                            T = Temperature in Kelvin
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- COLLISION SIMULATOR -->
+    <section id="simulator">
+        <div class="section-header">
+            <span class="section-tag">Interactive Simulation</span>
+            <h2 class="section-title">Collision Theory Lab</h2>
+            <p class="section-desc">Adjust variables in real-time to visualize what happens on the molecular level. Observe how temperature, concentration, and catalysts affect the reaction rate.</p>
+        </div>
+
+        <div class="glass-card simulator-container">
+            <!-- Left Side: Canvas -->
+            <div class="simulator-canvas-container">
+                <div class="sim-overlay-stats">
+                    <div class="stat-badge">
+                        <span>Reactant A:</span> <span class="value" id="simCountA" style="color:#00F2FE">0</span>
+                    </div>
+                    <div class="stat-badge">
+                        <span>Reactant B:</span> <span class="value" id="simCountB" style="color:var(--accent-orange)">0</span>
+                    </div>
+                    <div class="stat-badge">
+                        <span>Product AB:</span> <span class="value" id="simCountAB" style="color:var(--accent-purple)">0</span>
+                    </div>
+                    <div class="stat-badge">
+                        <span>Rate:</span> <span class="value" id="simRate" style="color:var(--accent-green)">0.0/s</span>
+                    </div>
+                </div>
+                <canvas id="simCanvas"></canvas>
+            </div>
+
+            <!-- Right Side: Controls -->
+            <div class="simulator-controls">
+                <div class="control-group">
+                    <label>Concentration (Number of Molecules) <span class="val-display" id="valConcentration">40</span></label>
+                    <input type="range" min="10" max="80" value="40" class="slider" id="simConcentration">
+                </div>
+
+                <div class="control-group">
+                    <label>Temperature (Kelvin) <span class="val-display" id="valTemperature" style="color:var(--accent-purple)">298 K</span></label>
+                    <input type="range" min="200" max="600" value="298" class="slider purple-slider" id="simTemperature">
+                </div>
+
+                <div class="switch-container" id="catalystToggleContainer">
+                    <span class="lbl">Add Catalyst (Lower Activation Energy)</span>
+                    <label class="switch">
+                        <input type="checkbox" id="simCatalyst">
+                        <span class="switch-slider"></span>
+                    </label>
+                </div>
+
+                <!-- MINI ENERGY GRAPH -->
+                <div class="energy-profile-container">
+                    <h5 style="font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:0.5rem; color:var(--text-secondary)">Reaction Energy Profile</h5>
+                    <svg viewBox="0 0 200 100">
+                        <!-- Path base -->
+                        <path d="M 10 70 L 40 70 Q 75 10 110 70 L 190 70" fill="none" stroke="#fff" stroke-width="2"/>
+                        <!-- Catalyst path -->
+                        <path d="M 40 70 Q 75 40 110 70" fill="none" stroke="var(--accent-green)" stroke-width="2" stroke-dasharray="3 3" id="catalystPath" style="display:none;"/>
+                        <!-- Labels -->
+                        <text x="15" y="60" fill="#9CA3AF" font-size="7">Reactants</text>
+                        <text x="145" y="60" fill="#9CA3AF" font-size="7">Products</text>
+                        <text x="75" y="95" fill="var(--text-primary)" font-size="8">Reaction Path</text>
+                        <!-- E_a arrows -->
+                        <path d="M 75 70 L 75 12" fill="none" stroke="var(--accent-cyan)" stroke-width="1" id="arrowEa"/>
+                        <circle cx="75" cy="12" r="1.5" fill="var(--accent-cyan)"/>
+                        <text x="80" y="25" fill="var(--accent-cyan)" font-size="7" id="txtEa">Ea</text>
+                    </svg>
+                </div>
+
+                <div class="sim-btn-grid">
+                    <button class="btn btn-secondary" onclick="resetSim()" style="padding:0.6rem 1rem; font-size:0.9rem;">Reset Reaction</button>
+                    <button class="btn btn-primary" onclick="triggerReaction()" style="padding:0.6rem 1rem; font-size:0.9rem;">Ignite / Mix</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GRAPH & CALCULATOR DASHBOARD -->
+    <section id="dashboard">
+        <div class="section-header">
+            <span class="section-tag">Interactive Calculations</span>
+            <h2 class="section-title">Kinetics Dashboard</h2>
+            <p class="section-desc">Visualize dynamic rate plots and solve textbook kinetics problems using our CBSE Integrated Rate Equation solver.</p>
+        </div>
+
+        <div class="glass-card dashboard-grid">
+            <!-- Left Grid: Interactive Graph -->
+            <div class="graph-wrapper">
+                <div class="graph-controls">
+                    <button class="tab-btn active" id="btnZeroOrderGraph" onclick="switchGraphOrder(0)" style="padding:0.5rem 1rem; font-size:0.85rem;">Zero Order</button>
+                    <button class="tab-btn" id="btnFirstOrderGraph" onclick="switchGraphOrder(1)" style="padding:0.5rem 1rem; font-size:0.85rem;">First Order</button>
+                </div>
+                <div class="control-group">
+                    <label>Initial Concentration [A]<sub>0</sub> <span class="val-display" id="valA0">1.0 M</span></label>
+                    <input type="range" min="50" max="200" value="100" class="slider" id="graphA0" oninput="updateGraphs()">
+                </div>
+                <div class="control-group">
+                    <label>Rate Constant (k) <span class="val-display" id="valK">0.05</span></label>
+                    <input type="range" min="10" max="100" value="30" class="slider purple-slider" id="graphK" oninput="updateGraphs()">
+                </div>
+
+                <div class="svg-chart-container">
+                    <div class="chart-box">
+                        <h4>Concentration vs Time</h4>
+                        <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+                            <path d="" fill="none" stroke="var(--accent-cyan)" stroke-width="2" id="pathConcTime"></path>
+                        </svg>
+                        <span style="font-size:0.75rem; color:var(--text-secondary); margin-top:0.3rem;">[A] &rarr;</span>
+                    </div>
+                    <div class="chart-box">
+                        <h4>Rate vs Concentration</h4>
+                        <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+                            <path d="" fill="none" stroke="var(--accent-purple)" stroke-width="2" id="pathRateConc"></path>
+                        </svg>
+                        <span style="font-size:0.75rem; color:var(--text-secondary); margin-top:0.3rem;">[A] &rarr;</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Grid: Solver / Calculator -->
+            <div class="calc-wrapper">
+                <h3 style="font-family:var(--font-display); font-size:1.4rem; color:var(--accent-cyan); margin-bottom:1rem;">CBSE Formula Solver</h3>
+                <div class="calc-form">
+                    <div class="calc-input-group">
+                        <label>Select Reaction Order</label>
+                        <select id="calcOrder" onchange="toggleCalcFields()">
+                            <option value="1">First-Order Reaction</option>
+                            <option value="0">Zero-Order Reaction</option>
+                        </select>
+                    </div>
+                    <div class="calc-input-group">
+                        <label>What do you want to calculate?</label>
+                        <select id="calcTarget" onchange="toggleCalcFields()">
+                            <option value="halfLife">Half-Life (t<sub>1/2</sub>)</option>
+                            <option value="kVal">Rate Constant (k)</option>
+                            <option value="remConc">Remaining Conc. [A]<sub>t</sub> / Time (t)</option>
+                        </select>
+                    </div>
+
+                    <!-- Input fields contextually hidden/shown -->
+                    <div class="calc-input-group" id="groupA0Input">
+                        <label>Initial Concentration [A]<sub>0</sub> (M)</label>
+                        <input type="number" id="inputA0" value="1.0" step="0.1">
+                    </div>
+                    <div class="calc-input-group" id="groupAtInput" style="display:none;">
+                        <label>Target / Remaining Conc. [A]<sub>t</sub> (M)</label>
+                        <input type="number" id="inputAt" value="0.5" step="0.1">
+                    </div>
+                    <div class="calc-input-group" id="groupKInput">
+                        <label>Rate Constant (k)</label>
+                        <input type="number" id="inputK" value="0.03" step="0.001">
+                    </div>
+                    <div class="calc-input-group" id="groupTimeInput" style="display:none;">
+                        <label>Time elapsed (t) (seconds)</label>
+                        <input type="number" id="inputTime" value="10" step="1">
+                    </div>
+
+                    <button class="btn btn-primary" onclick="runKineticsCalculation()" style="justify-content:center;">Calculate Now</button>
+
+                    <div class="calc-result" id="calcResultBox">
+                        <div class="calc-result-title" id="resTitle">Calculated Result</div>
+                        <div class="calc-result-val" id="resVal">--</div>
+                        <div class="calc-result-exp" id="resExp">--</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FUN AND FACT LEARN CAROUSEL -->
+    <section id="facts">
+        <div class="section-header">
+            <span class="section-tag">Kinetics in the Real World</span>
+            <h2 class="section-title">Fun & Fact Learn</h2>
+            <p class="section-desc">Discover how chemical reaction rates control everyday physical processes, from biological clockworks to environmental conservation.</p>
+        </div>
+
+        <div class="facts-container">
+            <!-- Slide 1 -->
+            <div class="fact-slide active" data-index="0">
+                <div class="fact-card-inner">
+                    <span class="fact-badge">Arrhenius in Nature</span>
+                    <div class="fact-icon">🦗</div>
+                    <h3 class="fact-title">Firefly Flashing Frequencies</h3>
+                    <p class="fact-text">Did you know that fireflies flash faster on warm summer nights? The chemical reaction responsible for their bioluminescence (luciferin oxidation catalyzed by luciferase) follows the <strong>Arrhenius Equation</strong>. The rate of the biochemical reaction increases exponentially with temperature, prompting faster flashes!</p>
+                </div>
+            </div>
+            <!-- Slide 2 -->
+            <div class="fact-slide" data-index="1">
+                <div class="fact-card-inner">
+                    <span class="fact-badge">Domestic Chemistry</span>
+                    <div class="fact-icon">❄️</div>
+                    <h3 class="fact-title">The Freezer Kinetic Barrier</h3>
+                    <p class="fact-text">We freeze food to prevent spoilage—but why? Food spoilage is a set of multi-step biochemical reactions. Reducing the temperature from 25&deg;C (room temp) to -18&deg;C (freezer) severely reduces the average kinetic energy of the reactants. This means only a tiny fraction of molecules can cross the <strong>activation energy barrier</strong>, slowing the decomposition rate to a near standstill!</p>
+                </div>
+            </div>
+            <!-- Slide 3 -->
+            <div class="fact-slide" data-index="2">
+                <div class="fact-card-inner">
+                    <span class="fact-badge">Heterogeneous Catalysis</span>
+                    <div class="fact-icon">🚗</div>
+                    <h3 class="fact-title">Catalytic Converter Matchmakers</h3>
+                    <p class="fact-text">Automobile exhaust containing poisonous Carbon Monoxide (CO) and Nitrogen Oxides (NOx) passes through a catalytic converter lined with Platinum, Palladium, and Rhodium. The metal surfaces act as catalysts by providing a solid surface for <strong>adsorption</strong>, aligning reactants perfectly, and lowering the activation energy to speed up conversion to harmless CO<sub>2</sub> and N<sub>2</sub>.</p>
+                </div>
+            </div>
+            <!-- Slide 4 -->
+            <div class="fact-slide" data-index="3">
+                <div class="fact-card-inner">
+                    <span class="fact-badge">Nuclear Kinetics</span>
+                    <div class="fact-icon">⏳</div>
+                    <h3 class="fact-title">Carbon Dating & First-Order Decay</h3>
+                    <p class="fact-text">All radioactive decay processes follow strict <strong>First-Order Kinetics</strong>. The half-life of Carbon-14 (<sup>14</sup>C) is a constant 5,730 years, completely independent of how much carbon is present. By measuring the remaining concentration of <sup>14</sup>C in ancient wood or bones, archaeologists can integrate first-order decay equations to date them precisely.</p>
+                </div>
+            </div>
+            <!-- Slide 5 -->
+            <div class="fact-slide" data-index="4">
+                <div class="fact-card-inner">
+                    <span class="fact-badge">Visual Kinetics</span>
+                    <div class="fact-icon">🧪</div>
+                    <h3 class="fact-title">The Landolt Iodine Clock</h3>
+                    <p class="fact-text">The Iodine Clock reaction is a famous experiment where a solution suddenly turns dark blue/indigo in an instant. This occurs because of a series of competing reactions with different rates. The first reaction consumes iodine slowly, and once a critical reactant runs out, a rapid second reaction takes over, changing the color. It's a gorgeous visual representation of consecutive kinetics!</p>
+                </div>
+            </div>
+
+            <!-- CAROUSEL NAVIGATION -->
+            <div class="carousel-nav">
+                <button class="carousel-arrow" onclick="prevFactSlide()">&#8592;</button>
+                <div class="carousel-dots" id="carouselDots">
+                    <span class="dot active" onclick="goFactSlide(0)"></span>
+                    <span class="dot" onclick="goFactSlide(1)"></span>
+                    <span class="dot" onclick="goFactSlide(2)"></span>
+                    <span class="dot" onclick="goFactSlide(3)"></span>
+                    <span class="dot" onclick="goFactSlide(4)"></span>
+                </div>
+                <button class="carousel-arrow" onclick="nextFactSlide()">&#8594;</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- CBSE PREP INTERACTIVE QUIZ -->
+    <section id="quiz">
+        <div class="section-header">
+            <span class="section-tag">Board Exam Booster</span>
+            <h2 class="section-title">CBSE Quick Check Quiz</h2>
+            <p class="section-desc">Test your understanding of typical board exam multiple choice questions with immediate feedback and explanation guides.</p>
+        </div>
+
+        <div class="glass-card quiz-wrapper" id="quizContainer">
+            <!-- Quiz Start Screen -->
+            <div class="quiz-intro" id="quizIntro">
+                <div class="fact-icon">🎓</div>
+                <h3 style="font-family:var(--font-display); font-size:1.6rem; margin-bottom:1rem;">Ready for the Challenge?</h3>
+                <p>8 Class XII CBSE level questions. Take the quiz to earn your Kinetics Specialist badge!</p>
+                <button class="btn btn-primary" onclick="startQuiz()">Start Quiz</button>
+            </div>
+
+            <!-- Quiz Questions Render Area -->
+            <div class="quiz-play-area" id="quizPlayArea" style="display:none;">
+                <div class="quiz-progress-bar">
+                    <div class="quiz-progress-fill" id="quizProgress"></div>
+                </div>
+
+                <!-- Questions (Rendered Dynamically via JS for clean expansion) -->
+                <div id="dynamicQuestionContainer"></div>
+
+                <div class="quiz-nav-btns">
+                    <button class="btn btn-secondary" id="btnPrevQ" onclick="prevQuestion()" style="opacity: 0; pointer-events: none;">Previous</button>
+                    <button class="btn btn-primary" id="btnNextQ" onclick="nextQuestion()" disabled>Next Question</button>
+                </div>
+            </div>
+
+            <!-- Quiz End Screen -->
+            <div class="quiz-score-card" id="quizScoreCard" style="display:none;">
+                <span class="fact-badge" style="background:rgba(0, 242, 254, 0.1);">Quiz Completed!</span>
+                <h3 style="font-family:var(--font-display); font-size:1.8rem; margin-top:0.5rem;">Your Performance Card</h3>
+                <div class="score-circle">
+                    <span id="scoreText">0/8</span>
+                    <span class="label">Correct</span>
+                </div>
+                <div class="rank-badge" id="rankBadge">Kinetics Rookie</div>
+                <p style="color:var(--text-secondary); max-width: 400px; margin-top:0.5rem;" id="scoreMessage">You are starting to understand reaction rates, but there's room for more speed!</p>
+                <button class="btn btn-primary" onclick="restartQuiz()" style="margin-top:1.5rem;">Try Again</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-logo">Kinetix Lab</div>
+        <ul class="footer-links">
+            <li><a href="#concepts">Concepts</a></li>
+            <li><a href="#simulator">Virtual Sim</a></li>
+            <li><a href="#dashboard">Calculator</a></li>
+            <li><a href="#facts">Fun Facts</a></li>
+            <li><a href="#quiz">Board Quiz</a></li>
+        </ul>
+        <p class="footer-copy">&copy; 2026 Kinetix Lab. Formulated for CBSE Class XII Chemistry education. Built with premium design.</p>
+    </footer>
+
+    <!-- INTERACTIVE JAVASCRIPT LOGIC -->
+    <script>
+        /* MOBILE MENU TOGGLE */
+        const burgerMenu = document.getElementById('burgerMenu');
+        const navLinks = document.getElementById('navLinks');
+
+        burgerMenu.addEventListener('click', () => {
+            navLinks.classList.toggle('mobile-active');
+            const spans = burgerMenu.querySelectorAll('span');
+            spans[0].style.transform = navLinks.classList.contains('mobile-active') ? 'rotate(45deg) translate(6px, 6px)' : 'none';
+            spans[1].style.opacity = navLinks.classList.contains('mobile-active') ? '0' : '1';
+            spans[2].style.transform = navLinks.classList.contains('mobile-active') ? 'rotate(-45deg) translate(6px, -6px)' : 'none';
+        });
+
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('mobile-active');
+                const spans = burgerMenu.querySelectorAll('span');
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
+            });
+        });
+
+        /* THEORY TAB SWITCHING */
+        function switchTab(tabGroupName, index) {
+            const tabs = document.querySelectorAll(`.${tabGroupName}-tab`);
+            const buttons = document.querySelectorAll('#concepts .tab-btn');
+            
+            tabs.forEach(tab => tab.classList.remove('active'));
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            tabs[index].classList.add('active');
+            buttons[index].classList.add('active');
+        }
+
+        /* COLLISION THEORY SIMULATOR ENGINE */
+        const simCanvas = document.getElementById('simCanvas');
+        const ctx = simCanvas.getContext('2d');
+        const simConcentrationInput = document.getElementById('simConcentration');
+        const simTemperatureInput = document.getElementById('simTemperature');
+        const simCatalystInput = document.getElementById('simCatalyst');
+        
+        const valConcentration = document.getElementById('valConcentration');
+        const valTemperature = document.getElementById('valTemperature');
+        
+        const simCountA = document.getElementById('simCountA');
+        const simCountB = document.getElementById('simCountB');
+        const simCountAB = document.getElementById('simCountAB');
+        const simRate = document.getElementById('simRate');
+        const catalystPath = document.getElementById('catalystPath');
+        const arrowEa = document.getElementById('arrowEa');
+        const txtEa = document.getElementById('txtEa');
+
+        // Particle configuration
+        let particles = [];
+        let numA = 0;
+        let numB = 0;
+        let numAB = 0;
+        let successfulCollisions = 0;
+        let startTime = Date.now();
+        let activeReaction = false;
+        let width = 0;
+        let height = 0;
+
+        function resizeCanvas() {
+            width = simCanvas.parentElement.clientWidth;
+            height = 380;
+            simCanvas.width = width;
+            simCanvas.height = height;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor(type, x, y) {
+                this.type = type; // 'A', 'B', or 'AB'
+                this.x = x;
+                this.y = y;
+                this.radius = 8;
+                this.mass = 1;
+                
+                // Velocity based on temperature
+                this.setVelocityFromTemp();
+            }
+
+            setVelocityFromTemp() {
+                const temp = parseFloat(simTemperatureInput.value);
+                // Kinetic Energy proportional to Temp: v ~ sqrt(Temp)
+                const baseSpeed = Math.sqrt(temp) * 0.15;
+                const angle = Math.random() * Math.PI * 2;
+                
+                if (this.type === 'AB') {
+                    // product is heavier, moves slightly slower
+                    this.vx = Math.cos(angle) * baseSpeed * 0.7;
+                    this.vy = Math.sin(angle) * baseSpeed * 0.7;
+                    this.radius = 11;
+                } else {
+                    this.vx = Math.cos(angle) * baseSpeed;
+                    this.vy = Math.sin(angle) * baseSpeed;
+                    this.radius = 8;
+                }
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // Wall collisions
+                if (this.x - this.radius < 0) {
+                    this.x = this.radius;
+                    this.vx = -this.vx;
+                }
+                if (this.x + this.radius > width) {
+                    this.x = width - this.radius;
+                    this.vx = -this.vx;
+                }
+                if (this.y - this.radius < 0) {
+                    this.y = this.radius;
+                    this.vy = -this.vy;
+                }
+                if (this.y + this.radius > height) {
+                    this.y = height - this.radius;
+                    this.vy = -this.vy;
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                if (this.type === 'A') {
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = '#00F2FE';
+                    ctx.shadowColor = '#00F2FE';
+                    ctx.shadowBlur = 4;
+                } else if (this.type === 'B') {
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = '#FF8C00';
+                    ctx.shadowColor = '#FF8C00';
+                    ctx.shadowBlur = 4;
+                } else {
+                    // Product AB (two linked circles representation)
+                    ctx.arc(this.x - 3, this.y, 7, 0, Math.PI * 2);
+                    ctx.fillStyle = '#9B51E0';
+                    ctx.fill();
+                    ctx.beginPath();
+                    ctx.arc(this.x + 3, this.y, 7, 0, Math.PI * 2);
+                    ctx.fillStyle = '#00F5A0';
+                    ctx.shadowColor = '#9B51E0';
+                    ctx.shadowBlur = 8;
+                }
+                ctx.fill();
+                ctx.shadowBlur = 0; // reset
+            }
+        }
+
+        function initSim() {
+            particles = [];
+            successfulCollisions = 0;
+            startTime = Date.now();
+            activeReaction = false;
+            
+            const count = parseInt(simConcentrationInput.value);
+            // Half A, Half B
+            numA = Math.floor(count / 2);
+            numB = count - numA;
+            numAB = 0;
+
+            valConcentration.innerText = count;
+            valTemperature.innerText = simTemperatureInput.value + " K";
+
+            // Spawn A
+            for (let i = 0; i < numA; i++) {
+                particles.push(new Particle('A', Math.random() * (width - 40) + 20, Math.random() * (height - 40) + 20));
+            }
+            // Spawn B
+            for (let i = 0; i < numB; i++) {
+                particles.push(new Particle('B', Math.random() * (width - 40) + 20, Math.random() * (height - 40) + 20));
+            }
+
+            updateLabels();
+        }
+
+        function triggerReaction() {
+            activeReaction = true;
+            startTime = Date.now();
+        }
+
+        function resetSim() {
+            initSim();
+        }
+
+        function updateLabels() {
+            simCountA.innerText = numA;
+            simCountB.innerText = numB;
+            simCountAB.innerText = numAB;
+            
+            if (activeReaction && numAB > 0) {
+                const secs = (Date.now() - startTime) / 1000;
+                const r = (numAB / secs).toFixed(1);
+                simRate.innerText = r + "/s";
+            } else {
+                simRate.innerText = "0.0/s";
+            }
+        }
+
+        // Particle physics collisions
+        function resolveCollisions() {
+            const hasCatalyst = simCatalystInput.checked;
+            // Activation threshold (relative velocity squared)
+            // If catalyst active, lower the kinetic energy requirement to react
+            const thresholdVelSq = hasCatalyst ? 3.5 : 12.0;
+
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const p1 = particles[i];
+                    const p2 = particles[j];
+
+                    // Check overlap
+                    const dx = p2.x - p1.x;
+                    const dy = p2.y - p1.y;
+                    const dist = Math.sqrt(dx*dx + dy*dy);
+                    const minDist = p1.radius + p2.radius;
+
+                    if (dist < minDist) {
+                        // Elastic collision physics
+                        const normalX = dx / dist;
+                        const normalY = dy / dist;
+
+                        // Relative velocity along collision normal
+                        const kx = p1.vx - p2.vx;
+                        const ky = p1.vy - p2.vy;
+                        const vn = kx * normalX + ky * normalY;
+
+                        // Only bounce if they are moving towards each other
+                        if (vn > 0) {
+                            // Collision impulse scalar
+                            const impulse = 2 * vn / (p1.mass + p2.mass);
+                            
+                            // Check reaction path: A + B -> AB
+                            if (activeReaction && 
+                                ((p1.type === 'A' && p2.type === 'B') || (p1.type === 'B' && p2.type === 'A'))) {
+                                
+                                // Velocity relative square representation of activation energy
+                                const relativeEnergySq = vn * vn;
+                                
+                                if (relativeEnergySq >= thresholdVelSq) {
+                                    // SUCCESSFUL COLLISION! Reactants become Product AB
+                                    p1.type = 'AB';
+                                    p1.x = (p1.x + p2.x) / 2;
+                                    p1.y = (p1.y + p2.y) / 2;
+                                    p1.setVelocityFromTemp();
+                                    
+                                    // Remove the second particle
+                                    particles.splice(j, 1);
+                                    
+                                    numA--;
+                                    numB--;
+                                    numAB++;
+                                    successfulCollisions++;
+                                    
+                                    updateLabels();
+                                    j--; // adjust loop bounds
+                                    continue;
+                                }
+                            }
+
+                            // Standard elastic bounce if no reaction
+                            p1.vx -= impulse * p2.mass * normalX;
+                            p1.vy -= impulse * p2.mass * normalY;
+                            p2.vx += impulse * p1.mass * normalX;
+                            p2.vy += impulse * p1.mass * normalY;
+                        }
+                    }
+                }
+            }
+        }
+
+        function simLoop() {
+            ctx.clearRect(0, 0, width, height);
+            
+            // Resolve elastic collisions and reaction events
+            resolveCollisions();
+
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            // Periodically refresh rates labels
+            if (activeReaction && Math.random() < 0.05) {
+                updateLabels();
+            }
+
+            requestAnimationFrame(simLoop);
+        }
+
+        // Sliders updates
+        simConcentrationInput.addEventListener('input', () => {
+            initSim();
+        });
+        simTemperatureInput.addEventListener('input', () => {
+            valTemperature.innerText = simTemperatureInput.value + " K";
+            particles.forEach(p => p.setVelocityFromTemp());
+        });
+
+        // Catalyst visuals
+        simCatalystInput.addEventListener('change', () => {
+            if (simCatalystInput.checked) {
+                catalystPath.style.display = 'block';
+                arrowEa.setAttribute('d', 'M 75 70 L 75 42');
+                arrowEa.setAttribute('stroke', 'var(--accent-green)');
+                txtEa.setAttribute('y', '50');
+                txtEa.setAttribute('fill', 'var(--accent-green)');
+                txtEa.innerHTML = "Ea (cat)";
+            } else {
+                catalystPath.style.display = 'none';
+                arrowEa.setAttribute('d', 'M 75 70 L 75 12');
+                arrowEa.setAttribute('stroke', 'var(--accent-cyan)');
+                txtEa.setAttribute('y', '25');
+                txtEa.setAttribute('fill', 'var(--accent-cyan)');
+                txtEa.innerHTML = "Ea";
+            }
+        });
+
+        // Initialize simulator
+        initSim();
+        simLoop();
+
+
+        /* DASHBOARD - GRAPH INTERACTIVITY */
+        let graphOrder = 0; // 0 for Zero Order, 1 for First Order
+
+        function switchGraphOrder(order) {
+            graphOrder = order;
+            document.getElementById('btnZeroOrderGraph').classList.toggle('active', order === 0);
+            document.getElementById('btnFirstOrderGraph').classList.toggle('active', order === 1);
+            updateGraphs();
+        }
+
+        function updateGraphs() {
+            const a0Val = parseFloat(document.getElementById('graphA0').value) / 100;
+            const kVal = parseFloat(document.getElementById('graphK').value) / 100;
+            
+            document.getElementById('valA0').innerText = a0Val.toFixed(2) + " M";
+            document.getElementById('valK').innerText = kVal.toFixed(3);
+
+            const pathConcTime = document.getElementById('pathConcTime');
+            const pathRateConc = document.getElementById('pathRateConc');
+
+            let concPoints = [];
+            let ratePoints = [];
+
+            if (graphOrder === 0) {
+                // Zero Order kinetics: [A]_t = [A]_0 - k * t
+                for (let t = 0; t <= 100; t++) {
+                    const conc = Math.max(0, a0Val - kVal * (t / 10));
+                    // Map conc to SVG coords (SVG height is 100, y increases downwards, so y = 100 - conc_percent)
+                    const y = 100 - (conc / 2.0) * 100; 
+                    concPoints.push(`${t},${y}`);
+                }
+
+                // Rate vs Concentration: Rate = k (horizontal line)
+                for (let c = 0; c <= 100; c++) {
+                    const rateY = 100 - (kVal / 1.0) * 100; 
+                    ratePoints.push(`${c},${rateY}`);
+                }
+
+            } else {
+                // First Order kinetics: [A]_t = [A]_0 * e^(-k * t)
+                for (let t = 0; t <= 100; t++) {
+                    const conc = a0Val * Math.exp(-kVal * (t / 10));
+                    const y = 100 - (conc / 2.0) * 100;
+                    concPoints.push(`${t},${y}`);
+                }
+
+                // Rate vs Concentration: Rate = k * [A] (straight line)
+                for (let x = 0; x <= 100; x++) {
+                    const concVal = (x / 100) * 2.0; // range 0 to 2.0
+                    const rate = kVal * concVal;
+                    const y = 100 - (rate / 2.0) * 100; // scale appropriately
+                    ratePoints.push(`${x},${y}`);
+                }
+            }
+
+            pathConcTime.setAttribute('d', `M ${concPoints.join(' L ')}`);
+            pathRateConc.setAttribute('d', `M ${ratePoints.join(' L ')}`);
+        }
+
+        // Init graphs
+        updateGraphs();
+
+
+        /* DASHBOARD - KINETICS CALCULATOR LOGIC */
+        function toggleCalcFields() {
+            const target = document.getElementById('calcTarget').value;
+            
+            // Hide everything first
+            document.getElementById('groupA0Input').style.display = 'none';
+            document.getElementById('groupAtInput').style.display = 'none';
+            document.getElementById('groupKInput').style.display = 'none';
+            document.getElementById('groupTimeInput').style.display = 'none';
+
+            // Show conditionally
+            if (target === 'halfLife') {
+                document.getElementById('groupKInput').style.display = 'block';
+                if (document.getElementById('calcOrder').value == '0') {
+                    document.getElementById('groupA0Input').style.display = 'block';
+                }
+            } else if (target === 'kVal') {
+                document.getElementById('groupA0Input').style.display = 'block';
+                document.getElementById('groupAtInput').style.display = 'none'; // wait, for kVal we need A0 and At
+                document.getElementById('groupA0Input').style.display = 'block';
+                document.getElementById('groupAtInput').style.display = 'block';
+                document.getElementById('groupTimeInput').style.display = 'block';
+            } else if (target === 'remConc') {
+                document.getElementById('groupA0Input').style.display = 'block';
+                document.getElementById('groupKInput').style.display = 'block';
+                document.getElementById('groupTimeInput').style.display = 'block';
+            }
+        }
+
+        function runKineticsCalculation() {
+            const order = parseInt(document.getElementById('calcOrder').value);
+            const target = document.getElementById('calcTarget').value;
+            const a0 = parseFloat(document.getElementById('inputA0').value);
+            const at = parseFloat(document.getElementById('inputAt').value);
+            const k = parseFloat(document.getElementById('inputK').value);
+            const t = parseFloat(document.getElementById('inputTime').value);
+
+            let resultVal = 0;
+            let explanationText = "";
+            let titleText = "";
+
+            if (target === 'halfLife') {
+                titleText = "Calculated Half-Life (t₁/₂)";
+                if (order === 0) {
+                    // Zero Order: t_1/2 = A0 / 2k
+                    resultVal = a0 / (2 * k);
+                    explanationText = `Formula: t₁/₂ = [A]₀ / (2k). Calculated as ${a0} / (2 * ${k})`;
+                } else {
+                    // First Order: t_1/2 = 0.693 / k
+                    resultVal = 0.693 / k;
+                    explanationText = `Formula: t₁/₂ = 0.693 / k. Calculated as 0.693 / ${k}`;
+                }
+                resultVal = resultVal.toFixed(3) + " seconds";
+            } 
+            else if (target === 'kVal') {
+                titleText = "Calculated Rate Constant (k)";
+                if (order === 0) {
+                    // Zero Order: k = (A0 - At) / t
+                    resultVal = (a0 - at) / t;
+                    explanationText = `Formula: k = ([A]₀ - [A]ₜ) / t. Calculated as (${a0} - ${at}) / ${t}`;
+                    resultVal = resultVal.toFixed(5) + " mol L⁻¹ s⁻¹";
+                } else {
+                    // First Order: k = 2.303 / t * log(A0 / At)
+                    if (a0 <= 0 || at <= 0 || a0 <= at) {
+                        alert("Initial concentration [A]0 must be greater than target concentration [A]t, and both must be positive.");
+                        return;
+                    }
+                    resultVal = (2.303 / t) * Math.log10(a0 / at);
+                    explanationText = `Formula: k = (2.303 / t) * log([A]₀ / [A]ₜ). Calculated as (2.303 / ${t}) * log(${a0} / ${at})`;
+                    resultVal = resultVal.toFixed(5) + " s⁻¹";
+                }
+            } 
+            else if (target === 'remConc') {
+                titleText = "Calculated Concentration [A]ₜ";
+                if (order === 0) {
+                    // Zero Order: At = A0 - k * t
+                    resultVal = Math.max(0, a0 - k * t);
+                    explanationText = `Formula: [A]ₜ = [A]₀ - kt. Calculated as ${a0} - (${k} * ${t})`;
+                } else {
+                    // First Order: At = A0 * e^(-kt)
+                    resultVal = a0 * Math.exp(-k * t);
+                    explanationText = `Formula: [A]ₜ = [A]₀ * e⁻ᵏᵗ. Calculated as ${a0} * e^(-${k} * ${t})`;
+                }
+                resultVal = resultVal.toFixed(4) + " M";
+            }
+
+            document.getElementById('resTitle').innerText = titleText;
+            document.getElementById('resVal').innerText = resultVal;
+            document.getElementById('resExp').innerText = explanationText;
+            document.getElementById('calcResultBox').style.display = 'block';
+        }
+
+        // Initialize input visibilities
+        toggleCalcFields();
+
+
+        /* FUN FACTS CAROUSEL LOGIC */
+        let currentFactIndex = 0;
+        const slides = document.querySelectorAll('.fact-slide');
+        const dots = document.querySelectorAll('#carouselDots .dot');
+
+        function showFactSlide(index) {
+            slides[currentFactIndex].classList.remove('active');
+            dots[currentFactIndex].classList.remove('active');
+            
+            currentFactIndex = (index + slides.length) % slides.length;
+            
+            slides[currentFactIndex].classList.add('active');
+            dots[currentFactIndex].classList.add('active');
+        }
+
+        function nextFactSlide() {
+            showFactSlide(currentFactIndex + 1);
+        }
+
+        function prevFactSlide() {
+            showFactSlide(currentFactIndex - 1);
+        }
+
+        function goFactSlide(index) {
+            showFactSlide(index);
+        }
+
+        // Auto play fact carousel every 15 seconds
+        setInterval(nextFactSlide, 15000);
+
+
+        /* CBSE PREP QUIZ SYSTEM */
+        const quizQuestions = [
+            {
+                question: "What is the unit of rate constant (k) for a second-order chemical reaction?",
+                options: [
+                    "s⁻¹",
+                    "mol L⁻¹ s⁻¹",
+                    "L mol⁻¹ s⁻¹",
+                    "L² mol⁻² s⁻¹"
+                ],
+                correct: 2,
+                explanation: "The general unit of rate constant is (mol L⁻¹)¹⁻ⁿ s⁻¹, where 'n' is the reaction order. For n = 2: (mol L⁻¹)⁻¹ s⁻¹ = L mol⁻¹ s⁻¹."
+            },
+            {
+                question: "If the concentration of the reactant is doubled, the half-life of a zero-order reaction is:",
+                options: [
+                    "Doubled",
+                    "Halved",
+                    "Remains completely unchanged",
+                    "Quadrupled"
+                ],
+                correct: 0,
+                explanation: "For a zero-order reaction, t₁/₂ = [A]₀ / 2k. Since t₁/₂ is directly proportional to initial concentration [A]₀, doubling the concentration doubles the half-life."
+            },
+            {
+                question: "For a first-order reaction, the time required for 99% completion is approximately how many times the half-life?",
+                options: [
+                    "2 times",
+                    "6.6 times",
+                    "10 times",
+                    "3.3 times"
+                ],
+                correct: 1,
+                explanation: "t₉₉% = (2.303/k) * log(100/1) = 4.606/k. Since t₁/₂ = 0.693/k, the ratio t₉₉% / t₁/₂ is 4.606 / 0.693 ≈ 6.64 times."
+            },
+            {
+                question: "Which of the following statements about Molecularity of a reaction is incorrect?",
+                options: [
+                    "It is a theoretical concept",
+                    "It can be zero or a fraction",
+                    "It applies only to elementary reactions",
+                    "It is always a positive integer"
+                ],
+                correct: 1,
+                explanation: "Molecularity can neither be zero nor a fraction. It is always a positive integer (usually 1, 2, or 3) indicating colliding elementary species. Order can be zero/fractional."
+            },
+            {
+                question: "The rate constant of a reaction increases with an increase in temperature primarily because:",
+                options: [
+                    "Activation energy of the pathway decreases",
+                    "Total collision frequency decreases",
+                    "The fraction of effective collisions increases",
+                    "Threshold energy of the reaction increases"
+                ],
+                correct: 2,
+                explanation: "According to collision and Arrhenius theory, raising temperature increases the average kinetic energy. This yields a massive increase in the fraction of molecules crossing the activation barrier."
+            },
+            {
+                question: "In the Arrhenius equation k = A e⁻ᴱᵃ/ᴿᵀ, what does the term e⁻ᴱᵃ/ᴿᵀ represent?",
+                options: [
+                    "Frequency factor of colliding molecules",
+                    "Fraction of molecules with kinetic energy ≥ Eₐ",
+                    "The rate constant at absolute zero temperature",
+                    "Total number of reactant molecules present"
+                ],
+                correct: 1,
+                explanation: "The exponential term e⁻ᴱᵃ/ᴿᵀ represents the Boltzmann factor, which is the fraction of total collisions possessing energy equal to or greater than the Activation Energy (Eₐ) at temperature T."
+            },
+            {
+                question: "If a chemical reaction has a rate law: Rate = k[A]¹/²[B]², what is the overall order of the reaction?",
+                options: [
+                    "2",
+                    "1.5",
+                    "2.5",
+                    "3"
+                ],
+                correct: 2,
+                explanation: "The overall order is the sum of exponents in the rate law: n = 1/2 + 2 = 2.5 (a fractional order reaction)."
+            },
+            {
+                question: "What is the role of a positive catalyst in a chemical reaction?",
+                options: [
+                    "It increases the enthalpy of the reaction (ΔH)",
+                    "It provides an alternative pathway with a lower activation energy",
+                    "It increases the average kinetic energy of molecules",
+                    "It shifts the chemical equilibrium position"
+                ],
+                correct: 1,
+                explanation: "A catalyst speeds up a reaction by offering a different reaction mechanism/pathway that possesses a lower activation energy barrier, letting more molecules react per unit time."
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let selectedOption = null;
+
+        function startQuiz() {
+            document.getElementById('quizIntro').style.display = 'none';
+            document.getElementById('quizPlayArea').style.display = 'block';
+            currentQuestionIndex = 0;
+            score = 0;
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            selectedOption = null;
+            document.getElementById('btnNextQ').disabled = true;
+            document.getElementById('btnNextQ').innerText = currentQuestionIndex === quizQuestions.length - 1 ? "Finish Quiz" : "Next Question";
+
+            // Update Progress Bar
+            const progPercent = ((currentQuestionIndex) / quizQuestions.length) * 100;
+            document.getElementById('quizProgress').style.width = `${progPercent}%`;
+
+            const container = document.getElementById('dynamicQuestionContainer');
+            container.innerHTML = ""; // clear
+
+            const q = quizQuestions[currentQuestionIndex];
+
+            const qCard = document.createElement('div');
+            qCard.className = "question-card active";
+
+            const qNum = document.createElement('div');
+            qNum.className = "quiz-q-num";
+            qNum.innerText = `Question ${currentQuestionIndex + 1} of ${quizQuestions.length}`;
+
+            const qText = document.createElement('div');
+            qText.className = "quiz-q-text";
+            qText.innerText = q.question;
+
+            const optionsDiv = document.createElement('div');
+            optionsDiv.className = "quiz-options";
+
+            q.options.forEach((opt, idx) => {
+                const optBtn = document.createElement('button');
+                optBtn.className = "option-btn";
+                
+                // Formatted content for chemical symbols
+                optBtn.innerHTML = `<span>${opt}</span> <span class="badge-opt"></span>`;
+                optBtn.addEventListener('click', () => selectOptionHandler(idx, optBtn));
+                optionsDiv.appendChild(optBtn);
+            });
+
+            const expDiv = document.createElement('div');
+            expDiv.className = "quiz-explanation";
+            expDiv.id = "qExplanation";
+            expDiv.innerHTML = `<strong>CBSE Explanation:</strong> ${q.explanation}`;
+
+            qCard.appendChild(qNum);
+            qCard.appendChild(qText);
+            qCard.appendChild(optionsDiv);
+            qCard.appendChild(expDiv);
+
+            container.appendChild(qCard);
+        }
+
+        function selectOptionHandler(index, clickedBtn) {
+            if (selectedOption !== null) return; // already answered
+
+            selectedOption = index;
+            const q = quizQuestions[currentQuestionIndex];
+            const allOptionBtns = document.querySelectorAll('.option-btn');
+
+            allOptionBtns.forEach((btn, idx) => {
+                btn.classList.add('disabled');
+                if (idx === q.correct) {
+                    btn.classList.add('correct');
+                    btn.querySelector('.badge-opt').innerHTML = "&#10004;";
+                }
+            });
+
+            if (index === q.correct) {
+                score++;
+            } else {
+                clickedBtn.classList.remove('correct'); // override
+                clickedBtn.classList.add('incorrect');
+                clickedBtn.querySelector('.badge-opt').innerHTML = "&#10006;";
+            }
+
+            // Reveal explanation
+            document.getElementById('qExplanation').style.display = 'block';
+            document.getElementById('btnNextQ').disabled = false;
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < quizQuestions.length - 1) {
+                currentQuestionIndex++;
+                renderQuestion();
+            } else {
+                finishQuiz();
+            }
+        }
+
+        function finishQuiz() {
+            document.getElementById('quizPlayArea').style.display = 'none';
+            document.getElementById('quizScoreCard').style.display = 'flex';
+            document.getElementById('quizProgress').style.width = '100%';
+
+            document.getElementById('scoreText').innerText = `${score}/${quizQuestions.length}`;
+
+            const rankBadge = document.getElementById('rankBadge');
+            const scoreMessage = document.getElementById('scoreMessage');
+
+            // Rank calculation
+            if (score === quizQuestions.length) {
+                rankBadge.innerText = "Enzymatic Master ⚡";
+                rankBadge.style.color = "var(--accent-green)";
+                rankBadge.style.borderColor = "var(--accent-green)";
+                rankBadge.style.boxShadow = "var(--shadow-glow-green)";
+                scoreMessage.innerText = "Flawless score! You have completely mastered chemical kinetics for your CBSE Class XII boards.";
+                triggerConfetti();
+            } else if (score >= 6) {
+                rankBadge.innerText = "Reaction Catalyst 🚀";
+                rankBadge.style.color = "var(--accent-cyan)";
+                rankBadge.style.borderColor = "var(--accent-cyan)";
+                rankBadge.style.boxShadow = "var(--shadow-glow-cyan)";
+                scoreMessage.innerText = "Excellent kinetics understanding! You will speed through the boards easily.";
+                triggerConfetti();
+            } else if (score >= 4) {
+                rankBadge.innerText = "Elementary Particle 🧪";
+                rankBadge.style.color = "var(--accent-purple)";
+                rankBadge.style.borderColor = "var(--accent-purple)";
+                rankBadge.style.boxShadow = "var(--shadow-glow-purple)";
+                scoreMessage.innerText = "Good job. Go over the rate law and activation energy sections again to bump up your score!";
+            } else {
+                rankBadge.innerText = "Kinetics Rookie ⏳";
+                rankBadge.style.color = "var(--accent-orange)";
+                rankBadge.style.borderColor = "var(--accent-orange)";
+                rankBadge.style.boxShadow = "0 0 15px rgba(255, 140, 0, 0.4)";
+                scoreMessage.innerText = "Don't worry! Review the collision theory formulas and try the simulator to build your kinetic intuition.";
+            }
+        }
+
+        function restartQuiz() {
+            document.getElementById('quizScoreCard').style.display = 'none';
+            document.getElementById('quizIntro').style.display = 'block';
+            stopConfetti();
+        }
+
+
+        /* CONFETTI SYSTEM LOGIC FOR HIGHER SCORERS */
+        const confCanvas = document.getElementById('confettiCanvas');
+        const confCtx = confCanvas.getContext('2d');
+        let confWidth = 0;
+        let confHeight = 0;
+        let confParticles = [];
+        let confActive = false;
+
+        function resizeConfettiCanvas() {
+            confWidth = window.innerWidth;
+            confHeight = window.innerHeight;
+            confCanvas.width = confWidth;
+            confCanvas.height = confHeight;
+        }
+
+        window.addEventListener('resize', resizeConfettiCanvas);
+        resizeConfettiCanvas();
+
+        class ConfettiParticle {
+            constructor() {
+                this.x = Math.random() * confWidth;
+                this.y = Math.random() * -100 - 20;
+                this.size = Math.random() * 8 + 4;
+                this.color = ['#00F2FE', '#9B51E0', '#00F5A0', '#FF8C00', '#FF2A54'][Math.floor(Math.random() * 5)];
+                this.speedY = Math.random() * 3 + 2;
+                this.speedX = Math.random() * 2 - 1;
+                this.rotation = Math.random() * 360;
+                this.rotationSpeed = Math.random() * 4 - 2;
+            }
+
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX;
+                this.rotation += this.rotationSpeed;
+                if (this.y > confHeight) {
+                    this.y = -20;
+                    this.x = Math.random() * confWidth;
+                }
+            }
+
+            draw() {
+                confCtx.save();
+                confCtx.translate(this.x, this.y);
+                confCtx.rotate(this.rotation * Math.PI / 180);
+                confCtx.fillStyle = this.color;
+                confCtx.fillRect(-this.size/2, -this.size/2, this.size, this.size);
+                confCtx.restore();
+            }
+        }
+
+        function triggerConfetti() {
+            confCanvas.style.display = 'block';
+            confActive = true;
+            confParticles = [];
+            for (let i = 0; i < 100; i++) {
+                confParticles.push(new ConfettiParticle());
+            }
+            confLoop();
+        }
+
+        function stopConfetti() {
+            confActive = false;
+            confCanvas.style.display = 'none';
+        }
+
+        function confLoop() {
+            if (!confActive) return;
+            confCtx.clearRect(0, 0, confWidth, confHeight);
+            confParticles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(confLoop);
+        }
+
+    </script>
+</body>
+</html>
